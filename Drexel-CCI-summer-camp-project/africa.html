@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Ensure vertical stacking of elements */
+    align-items: center;
+    background-color: beige; /* Optional: Set background color */
+    font-family: 'Rubik', sans-serif; /* Ensure the use of the selected font */
+  }
+
+  #navbar {
+    background-color: beige;
+    color: #fff;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed; /* Ensure navbar stays at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Make sure the navbar is above other content */
+  }
+
+  .nav-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .nav-list li {
+    display: inline;
+    margin: 0 10px;
+  }
+
+  .nav-list li a {
+    color: saddlebrown;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .nav-list li a:hover {
+    text-decoration: underline;
+  }
+
+  h1 {
+    margin: 140px 0 20px; /* Reduced space above (60px) and kept space below (20px) the heading */
+    font-size: 50px; /* Adjust font size as needed */
+    color: saddlebrown; /* Color of the heading */
+    text-align: center; /* Center the heading horizontally */
+  }
+
+  .container {
+    display: flex;
+    justify-content: top;
+    align-items: center;
+    flex-direction: column;
+    flex: 1; /* Take remaining vertical space */
+    width: 100%;
+    max-width: 800px; /* Optional: Limit width of container */
+    padding: 0 20px; /* Corrected typo from '20x' to '20px' */
+    box-sizing: border-box; /* Include padding in width calculation */
+    margin-top: 0; /* Removed additional margin to reduce space from the heading */
+  }
+
+  .image-card {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Adjust width as needed */
+    height: auto; /* Adjust height as needed */
+    border: 1px solid #ccc;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 25px;
+    background-color: #fff; /* Default background color */
+    cursor: pointer;
+    margin-bottom: 20px; /* Add space between image cards */
+  }
+
+  .image-container {
+    flex: 0 0 25%; /* Center image 1/4 horizontally */
+    padding: 10px; /* Optional: Adjust padding for spacing */
+  }
+
+  .image-container img {
+    width: 100%; /* Set image width to 100% of container */
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 25px 0 0 25px;
+  }
+
+  .info-container {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative; /* Position children absolutely */
+    text-align: center; /* Center text horizontally */
+  }
+
+  .title, .hover-title {
+    font-size: 30px;
+    position: absolute;
+    transition: opacity 0.3s ease;
+  }
+
+  .title {
+    opacity: 1;
+  }
+
+  .hover-title {
+    opacity: 0;
+  }
+
+  .image-card:hover .title {
+    opacity: 0;
+  }
+
+  .image-card:hover .hover-title {
+    opacity: 1;
+  }
+
+  .image-card:hover {
+    transform: scale(1.05);
+    background-color: #e0e0e0; /* Change background color on hover */
+  }
+
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 800px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .modal-image {
+    width: 50%;
+    padding-right: 20px;
+  }
+
+  .modal-image img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .modal-description {
+    flex: 1;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+</style>
+</head>
+<body>
+  <!-- navigation bar -->
+  <nav id="navbar">
+    <ul class="nav-list">
+      <li>
+        <a href="index.html">BACK TO HOME</a>
+      </li>
+      <li>
+        <a href="about.html">ABOUT</a>
+      </li>
+      <li>
+        <a href="donate.html">DONATE</a>
+      </li>
+    </ul>
+  </nav>
+
+  <br>   
+
+  <!-- heading -->
+  <h1>AFRICA</h1>
+
+  <br> 
+
+  <!-- welcome section -->  
+  <div class="container">
+    <div class="image-card" onclick="openModal('addaxModal')">
+      <div class="image-container">
+        <img src="https://cff2.earth.com/uploads/2017/01/03142201/Addax-nasomaculatus.jpg" alt="Addax Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Addax</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('bushElephantModal')">
+      <div class="image-container">
+        <img src="https://i.natgeofe.com/n/b64060fa-343c-481b-a24d-7375fef34914/NationalGeographic_1425689_4x3.jpg" alt="Bush Elephant Image">
+      </div>
+      <div class="info-container">
+        <div class="title">African Bush Elephant</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('blackRhinoModal')">
+      <div class="image-container">
+        <img src="https://b2386983.smushcdn.com/2386983/wp-content/uploads/2022/01/E-black-rhino-species-page.jpg?lossy=0&strip=1&webp=1" alt="Black Rhino Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Black Rhino</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('mountainGorillaModal')">
+      <div class="image-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Susa_group%2C_mountain_gorilla.jpg/1200px-Susa_group%2C_mountain_gorilla.jpg" alt="Mountain Gorilla Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Mountain Gorilla</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modals -->
+  <div id="addaxModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('addaxModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://cff2.earth.com/uploads/2017/01/03142201/Addax-nasomaculatus.jpg" alt="Addax Image">
+      </div>
+      <div class="modal-description">
+        <h2>Addax</h2>
+        <p>
+          <li> Scientific Name: Addax nasomaculatus 
+             <li>Common Names: White antelope, Screwhorn antelope 
+                <li>Habitat: Native to the Sahara Desert in Africa. 
+                   <li>Conservation Status: Critically Endangered 
+                      <li>Characteristics: The addax is known for its long, twisted horns and sandy-colored coat that helps it blend into its desert surroundings. They are well-adapted to arid environments and can go long periods without water, obtaining moisture from the plants they eat. 
+                         <li>Biggest Threat: Habitat encroachment
+            </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="bushElephantModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('bushElephantModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://i.natgeofe.com/n/b64060fa-343c-481b-a24d-7375fef34914/NationalGeographic_1425689_4x3.jpg" alt="Bush Elephant Image">
+      </div>
+      <div class="modal-description">
+        <h2>African Bush Elephant</h2>
+        <p>
+        <li>Scientific Name: Loxodonta africana 
+          <li>Common Names: African savanna elephant 
+            <li>Habitat: Various habitats across sub-Saharan Africa, including savannas, forests, deserts, and marshes. 
+              <li>Conservation Status: Vulnerable 
+                <li>Characteristics: The African bush elephant is the largest land animal on Earth. They have large ears shaped like the African continent, which help them regulate body temperature. They are herbivorous, feeding on grasses, fruits, and bark. They play a crucial role in their ecosystem by shaping the landscape and dispersing seeds. 
+                  <li>Biggest Threat: Poaching for tusks, habitat loss and fragmentation
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="blackRhinoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('blackRhinoModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://b2386983.smushcdn.com/2386983/wp-content/uploads/2022/01/E-black-rhino-species-page.jpg?lossy=0&strip=1&webp=1" alt="Black Rhino Image">
+      </div>
+      <div class="modal-description">
+        <h2>Black Rhino</h2>
+        <p>
+        <li>Scientific Name: Diceros bicornis
+          <li>Common Names: Hook-lipped rhinoceros 
+            <li>Habitat: Various habitats in eastern and southern Africa, including savannas, grasslands, and forests. 
+              <li>Conservation Status: Critically Endangered 
+                <li>Characteristics: Black rhinos have two horns made of keratin. They are browsers, primarily feeding on bushes and trees. Despite their name, their color varies from brown to grey. They are known for their aggressive behavior and solitary nature. 
+        <li>Biggest Threat: Illegal Poaching, Competing species, Habitat changes   
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="mountainGorillaModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('mountainGorillaModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Susa_group%2C_mountain_gorilla.jpg/1200px-Susa_group%2C_mountain_gorilla.jpg" alt="Mountain Gorilla Image">
+      </div>
+      <div class="modal-description">
+        <h2>Mountain Gorilla</h2>
+        <p> <li>Scientific Name: Gorilla beringei beringei 
+          <li>Habitat: Mountainous regions of central Africa, specifically in the Virunga volcanic mountains of Rwanda, Uganda, and the Democratic Republic of the Congo.
+          <li>Conservation Status: Critically Endangered 
+            <li>Characteristics: Mountain gorillas are a subspecies of the eastern gorilla. They have thicker fur compared to other gorilla species, which helps them survive in cold mountain climates. They are primarily herbivorous, feeding on leaves, stems, and bamboo shoots. They live in social groups led by a dominant silverback male.
+        </li>Biggest Threat: Poaching (for zoos), habitat loss </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = "block";
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      var modals = document.getElementsByClassName('modal');
+      for (var i = 0; i < modals.length; i++) {
+        if (event.target == modals[i]) {
+          modals[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

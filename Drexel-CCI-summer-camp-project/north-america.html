@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Ensure vertical stacking of elements */
+    align-items: center;
+    background-color: beige; /* Optional: Set background color */
+    font-family: 'Rubik', sans-serif; /* Ensure the use of the selected font */
+  }
+
+  #navbar {
+    background-color: beige;
+    color: saddlebrown;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed; /* Ensure navbar stays at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Make sure the navbar is above other content */
+  }
+
+  .nav-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .nav-list li {
+    display: inline;
+    margin: 0 10px;
+  }
+
+  .nav-list li a {
+    color: saddlebrown;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .nav-list li a:hover {
+    text-decoration: underline;
+    
+  }
+
+  h1 {
+    margin: 140px 0 20px; /* Reduced space above (60px) and kept space below (20px) the heading */
+    font-size: 50px; /* Adjust font size as needed */
+    color: saddlebrown; /* Color of the heading */
+    text-align: center; /* Center the heading horizontally */
+  }
+
+  .container {
+    display: flex;
+    justify-content: top;
+    align-items: center;
+    flex-direction: column;
+    flex: 1; /* Take remaining vertical space */
+    width: 100%;
+    max-width: 800px; /* Optional: Limit width of container */
+    padding: 0 20px; /* Corrected typo from '20x' to '20px' */
+    box-sizing: border-box; /* Include padding in width calculation */
+    margin-top: 0; /* Removed additional margin to reduce space from the heading */
+  }
+
+  .image-card {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Adjust width as needed */
+    height: auto; /* Adjust height as needed */
+    border: 1px solid #ccc;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 25px;
+    background-color: #fff; /* Default background color */
+    cursor: pointer;
+    margin-bottom: 20px; /* Add space between image cards */
+  }
+
+  .image-container {
+    flex: 0 0 25%; /* Center image 1/4 horizontally */
+    padding: 10px; /* Optional: Adjust padding for spacing */
+  }
+
+  .image-container img {
+    width: 100%; /* Set image width to 100% of container */
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 25px 0 0 25px;
+  }
+
+  .info-container {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative; /* Position children absolutely */
+    text-align: center; /* Center text horizontally */
+  }
+
+  .title, .hover-title {
+    font-size: 30px;
+    position: absolute;
+    transition: opacity 0.3s ease;
+  }
+
+  .title {
+    opacity: 1;
+  }
+
+  .hover-title {
+    opacity: 0;
+  }
+
+  .image-card:hover .title {
+    opacity: 0;
+  }
+
+  .image-card:hover .hover-title {
+    opacity: 1;
+  }
+
+  .image-card:hover {
+    transform: scale(1.05);
+    background-color: #e0e0e0; /* Change background color on hover */
+  }
+
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 800px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .modal-image {
+    width: 50%;
+    padding-right: 20px;
+  }
+
+  .modal-image img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .modal-description {
+    flex: 1;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+</style>
+</head>
+<body>
+  <!-- navigation bar -->
+  <nav id="navbar">
+    <ul class="nav-list">
+      <li>
+        <a href="index.html">BACK TO HOME</a>
+      </li>
+      <li>
+        <a href="about.html">ABOUT</a>
+      </li>
+      <li>
+        <a href="donate.html">DONATE</a>
+      </li>
+    </ul>
+  </nav>
+  <br> 
+  <!-- heading -->
+  <h1>NORTH AMERICA</h1>
+  <br> 
+  <!-- welcome section -->  
+  <div class="container">
+    <div class="image-card" onclick="openModal('redWolfModal')">
+      <div class="image-container">
+        <img src="https://wildwnc.org/wp-content/uploads/2020/04/Friends-of-the-WNC-Nature-Center-Red-Wolf-Karma.jpg" alt="Red Wolf Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Red Wolf</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('americanBisonModal')">
+      <div class="image-container">
+        <img src="https://earthjustice.org/wp-content/uploads/bison_sergioboccardo_shutterstock3-scaled.jpg" alt="American Bison Image">
+      </div>
+      <div class="info-container">
+        <div class="title">American Bison</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('canadaLynxModal')">
+      <div class="image-container">
+        <img src="https://images.takeshape.io/86ce9525-f5f2-4e97-81ba-54e8ce933da7/dev/55481649-74d8-4f29-9d5a-fca10d3c59ca/CanadianLynx-WikiCommons2.webp" alt="Canada Lynx Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Canada Lynx</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('blackFootedFerretModal')">
+      <div class="image-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Mustela_nigripes_2.jpg" alt="Black Footed Ferret Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Black Footed Ferret</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modals -->
+  <div id="redWolfModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('redWolfModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://wildwnc.org/wp-content/uploads/2020/04/Friends-of-the-WNC-Nature-Center-Red-Wolf-Karma.jpg" alt="Red Wolf Image">
+      </div>
+      <div class="modal-description">
+        <h2>Red Wolf</h2>
+        <p><li>Scientific Name: Canis rufus <li>
+          Habitat: Historically found throughout the southeastern United States, now confined to a small area in North Carolina. <li>
+          Conservation Status: Critically Endangered <li>
+          Characteristics: The Red Wolf is smaller than the Grey Wolf but larger than the coyote. It has a reddish coat and is known for its elusive nature. Red wolves are social animals that live in packs and primarily hunt small mammals, deer, and other game. They are critically endangered due to habitat loss, hybridization with coyotes, and past persecution. <li>
+          Biggest Threat: Captivity, Habitat Fragmentation, Climate Change</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="americanBisonModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('americanBisonModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://earthjustice.org/wp-content/uploads/bison_sergioboccardo_shutterstock3-scaled.jpg" alt="American Bison Image">
+      </div>
+      <div class="modal-description">
+        <h2>American Bison</h2>
+        <p><li>Scientific Name: Bison bison bison
+          <li>Habitat: Historically widespread across the Great Plains of North America, now found in protected areas and private lands.
+            <li>Conservation Status: Near Threatened
+              <li>Characteristics: The American Bison is the largest land mammal in North America. It has a shaggy, dark brown coat and a distinctive hump on its shoulders. Bison live in herds and graze on grasses. Although once near extinction due to overhunting and habitat loss, conservation efforts have helped their populations recover, but they remain vulnerable due to limited genetic diversity and habitat fragmentation.
+                <li>Biggest Threat: Habitat Loss
+
+</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="canadaLynxModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('canadaLynxModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://images.takeshape.io/86ce9525-f5f2-4e97-81ba-54e8ce933da7/dev/55481649-74d8-4f29-9d5a-fca10d3c59ca/CanadianLynx-WikiCommons2.webp" alt="Canada Lynx Image" alt="Canada Lynx Image">
+      </div>
+      <div class="modal-description">
+        <h2>Canada Lynx</h2>
+        <p> <li>Scientific Name: Lynx canadensis
+           <li>Habitat: Boreal forests across Canada, Alaska, and parts of the northern United States.
+              <li>Conservation Status: Threatened
+                 <li>Characteristics: The Canada Lynx is a medium-sized cat with tufted ears, large paws adapted for walking on snow, and a short tail. They primarily hunt snowshoe hares and are well-adapted to cold, snowy environments. The main threats to their survival include habitat loss due to logging, climate change, and competition with other predators.
+                    <li>Biggest Threat: Small population size, habitat loss and fragmentation from large wildfires, and climate change
+</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="blackFootedFerretModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('blackFootedFerretModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/cf/Mustela_nigripes_2.jpg" alt="Black Footed Ferret Image">
+      </div>
+      <div class="modal-description">
+        <h2>Black Footed Ferret</h2>
+        <p> <li>Scientific Name: Mustela nigripes
+           <li>Habitat: Native to the Great Plains of North America, particularly in areas with prairie dog colonies.
+              <li>Conservation Status: Endangered
+                 <li>Characteristics: Black-footed ferrets are slender, with black markings on their feet, tail tip, and face. They are nocturnal and depend heavily on prairie dogs for both food and shelter. Their populations declined drastically due to habitat loss and disease, but conservation efforts, including captive breeding and reintroduction programs, have been implemented to help their recovery.
+                    <li>Biggest Threat: Habitat loss and non-native disease
+</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = "block";
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      var modals = document.getElementsByClassName('modal');
+      for (var i = 0; i < modals.length; i++) {
+        if (event.target == modals[i]) {
+          modals[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

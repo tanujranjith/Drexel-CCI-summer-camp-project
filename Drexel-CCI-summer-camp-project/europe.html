@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Ensure vertical stacking of elements */
+    align-items: center;
+    background-color: beige; /* Optional: Set background color */
+    font-family: 'Rubik', sans-serif; /* Ensure the use of the selected font */
+  }
+
+  #navbar {
+    background-color:beige;
+    color: #fff;
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    position: fixed; /* Ensure navbar stays at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Make sure the navbar is above other content */
+  }
+
+  .nav-list {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .nav-list li {
+    display: inline;
+    margin: 0 10px;
+  }
+
+  .nav-list li a {
+    color: saddlebrown;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+  .nav-list li a:hover {
+    text-decoration: underline;
+  }
+
+  h1 {
+    margin: 140px 0 20px; /* Reduced space above (60px) and kept space below (20px) the heading */
+    font-size: 50px; /* Adjust font size as needed */
+    color: saddlebrown; /* Color of the heading */
+    text-align: center; /* Center the heading horizontally */
+  }
+
+  .container {
+    display: flex;
+    justify-content: top;
+    align-items: center;
+    flex-direction: column;
+    flex: 1; /* Take remaining vertical space */
+    width: 100%;
+    max-width: 800px; /* Optional: Limit width of container */
+    padding: 0 20px; /* Corrected typo from '20x' to '20px' */
+    box-sizing: border-box; /* Include padding in width calculation */
+    margin-top: 0; /* Removed additional margin to reduce space from the heading */
+  }
+
+  .image-card {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Adjust width as needed */
+    height: auto; /* Adjust height as needed */
+    border: 1px solid #ccc;
+    overflow: hidden;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 25px;
+    background-color: #fff; /* Default background color */
+    cursor: pointer;
+    margin-bottom: 20px; /* Add space between image cards */
+  }
+
+  .image-container {
+    flex: 0 0 25%; /* Center image 1/4 horizontally */
+    padding: 10px; /* Optional: Adjust padding for spacing */
+  }
+
+  .image-container img {
+    width: 100%; /* Set image width to 100% of container */
+    height: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 25px 0 0 25px;
+  }
+
+  .info-container {
+    flex: 1;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative; /* Position children absolutely */
+    text-align: center; /* Center text horizontally */
+  }
+
+  .title, .hover-title {
+    font-size: 30px;
+    position: absolute;
+    transition: opacity 0.3s ease;
+  }
+
+  .title {
+    opacity: 1;
+  }
+
+  .hover-title {
+    opacity: 0;
+  }
+
+  .image-card:hover .title {
+    opacity: 0;
+  }
+
+  .image-card:hover .hover-title {
+    opacity: 1;
+  }
+
+  .image-card:hover {
+    transform: scale(1.05);
+    background-color: #e0e0e0; /* Change background color on hover */
+  }
+
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+    max-width: 800px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .modal-image {
+    width: 50%;
+    padding-right: 20px;
+  }
+
+  .modal-image img {
+    width: 100%;
+    border-radius: 10px;
+  }
+
+  .modal-description {
+    flex: 1;
+  }
+
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+</style>
+</head>
+<body>
+  <!-- navigation bar -->
+  <nav id="navbar">
+    <ul class="nav-list">
+      <li>
+        <a href="index.html">BACK TO HOME</a>
+      </li>
+      <li>
+        <a href="about.html">ABOUT</a>
+      </li>
+      <li>
+        <a href="donate.html">DONATE</a>
+      </li>
+    </ul>
+  </nav>
+<br>
+  <!-- heading -->
+  <h1>EUROPE</h1>
+<br>
+  <!-- welcome section -->  
+  <div class="container">
+    <div class="image-card" onclick="openModal('orangutanModal')">
+      <div class="image-container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lince_ib%C3%A9rico_%28Lynx_pardinus%29%2C_Almuradiel%2C_Ciudad_Real%2C_Espa%C3%B1a%2C_2021-12-19%2C_DD_07.jpg" alt="Orangutan Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Iberian Lynx</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('baweanDeerModal')">
+      <div class="image-container">
+        <img src="https://ranuaresort.com/wp-content/uploads/2023/05/20170620-_T4A7790-scaled.jpg" alt="Bawean Deer Image">
+      </div>
+      <div class="info-container">
+        <div class="title">European Mink</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('rhinoModal')">
+      <div class="image-container">
+        <img src="https://kyma-sea.org/wp-content/uploads/sites/2/2022/04/Moenchsrobbe.jpeg" alt="Rhino Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Mediterranean Monk Seal</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+
+    <div class="image-card" onclick="openModal('pangolinModal')">
+      <div class="image-container">
+        <img src="https://standfirst-whitleyaward-production.imgix.net/content/uploads/2023/04/12113325/Albert_Salemgareyev_2023_Kazakhstan_Species_Saiga-6-1.jpg?fit=crop&crop=focalpoint&q=75&auto=compress,format&w=371&h=412&fp-x=0.6121&fp-y=0.3919&dpr=2.625" alt="Pangolin Image">
+      </div>
+      <div class="info-container">
+        <div class="title">Saiga Antelope</div>
+        <div class="hover-title">Click to see more</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- The Modals -->
+  <div id="orangutanModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('orangutanModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Lince_ib%C3%A9rico_%28Lynx_pardinus%29%2C_Almuradiel%2C_Ciudad_Real%2C_Espa%C3%B1a%2C_2021-12-19%2C_DD_07.jpg" alt="Orangutan">
+      </div>
+      <div class="modal-description">
+        <h2>Iberian lynx</h2>
+        <p>The Iberian lynx, native to the Iberian Peninsula in Spain and Portugal, is one of the world's most endangered feline species. Habitat loss, decline in prey populations, and vehicle collisions have contributed to their critically low numbers. Conservation efforts, including breeding programs and habitat restoration, are in place to help their recovery.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="baweanDeerModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('baweanDeerModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://ranuaresort.com/wp-content/uploads/2023/05/20170620-_T4A7790-scaled.jpg" alt="Bawean Deer">
+      </div>
+      <div class="modal-description">
+        <h2>European mink</h2>
+        <p>The European mink is a small, semi-aquatic mammal found in Eastern Europe. It is critically endangered due to habitat destruction, pollution, and competition with the invasive American mink. Conservation projects are focusing on habitat protection and controlling the population of American minks to save this species.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="rhinoModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('rhinoModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://kyma-sea.org/wp-content/uploads/sites/2/2022/04/Moenchsrobbe.jpeg" alt="Rhino">
+      </div>
+      <div class="modal-description">
+        <h2>Mediterranean Monk Seal</h2>
+        <p>The Mediterranean monk seal is one of the world's rarest marine mammals, found in the Mediterranean Sea and the eastern Atlantic Ocean. Human activities, such as fishing and coastal development, have drastically reduced their population. Conservation actions include protecting their habitats and reducing human disturbances.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="pangolinModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('pangolinModal')">&times;</span>
+      <div class="modal-image">
+        <img src="https://standfirst-whitleyaward-production.imgix.net/content/uploads/2023/04/12113325/Albert_Salemgareyev_2023_Kazakhstan_Species_Saiga-6-1.jpg?fit=crop&crop=focalpoint&q=75&auto=compress,format&w=371&h=412&fp-x=0.6121&fp-y=0.3919&dpr=2.625" alt="Pangolin">
+      </div>
+      <div class="modal-description">
+        <h2>Saiga Antelope</h2>
+        <p>The Saiga antelope, with its distinctive bulbous nose, once roamed across the Eurasian steppes. It is now critically endangered due to poaching and habitat loss. Efforts to protect the Saiga include anti-poaching measures and establishing protected areas in their natural habitats.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(modalId) {
+      document.getElementById(modalId).style.display = "block";
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      var modals = document.getElementsByClassName('modal');
+      for (var i = 0; i < modals.length; i++) {
+        if (event.target == modals[i]) {
+          modals[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
