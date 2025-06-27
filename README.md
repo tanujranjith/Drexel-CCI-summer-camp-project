@@ -27,7 +27,7 @@ Each continent has its own dedicated HTML page showcasing different animals with
 - `index.html`: Main landing page
 - `[continent].html`: Pages for each continent (e.g., africa.html, asia.html)
 - `style.css`: Styling for the entire website
-- `submitDONATE.js`: JavaScript file handling donation form submissions
+- `submitDONATE.js`: JavaScript file handling donation form submissions (non functional)
 - Various image files of animals
 
 ## How to Run
